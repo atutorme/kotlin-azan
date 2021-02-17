@@ -1,4 +1,7 @@
+import java.time.LocalDate
+
 fun main() {
-    println(Sun.localDate)
-    println(Sun.julianDate)
+    val s = Sun(LocalDate.now())
+    println(s.julianDate)
+    println(s.equationOfTime)
 }

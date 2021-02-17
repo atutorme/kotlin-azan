@@ -5,9 +5,8 @@ import kotlin.math.atan2
 import kotlin.math.cos
 import kotlin.math.sin
 
-object Sun {
-    val localDate = LocalDate.now()
-    val julianDate = JulianFields.JULIAN_DAY.getFrom(localDate)
+class Sun(val date: LocalDate) {
+    val julianDate = JulianFields.JULIAN_DAY.getFrom(date)
     val daysSinceJ2000 = julianDate - 2451545.0
 
     val meanAnomaly = 357.529 + 0.98560028 * daysSinceJ2000
