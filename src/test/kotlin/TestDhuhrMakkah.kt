@@ -11,7 +11,7 @@ fun main() {
 
     println("Equation of time: ${Sun(LocalDate.now()).equationOfTime}")
 
-    val dhuhr = 12 + makkahTimeZone - makkahLongitude / 15 - Sun(LocalDate.now()).equationOfTime
+    val dhuhr = 12 + makkahTimeZone - makkahLongitude / 15 - Sun(LocalDate.now()).equationOfTime / 60.0
 
     println("Dhuhr in makkah is: $dhuhr")
 }
