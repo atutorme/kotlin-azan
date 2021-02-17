@@ -1,22 +1,26 @@
 import java.time.LocalDate
+import java.time.temporal.ChronoUnit
 import java.time.temporal.JulianFields
-import kotlin.math.asin
-import kotlin.math.atan2
-import kotlin.math.cos
-import kotlin.math.sin
+import kotlin.math.*
 
 class Sun(val date: LocalDate) {
-    val julianDate = JulianFields.JULIAN_DAY.getFrom(date)
-    val daysSinceJ2000 = julianDate - 2451545.0
+    companion object {
+        val epoch = LocalDate.of(2000, 1, 1)
+    }
+
+    val daysSinceJ2000 = ChronoUnit.DAYS.between(epoch, date)
 
     val meanAnomaly = 357.529 + 0.98560028 * daysSinceJ2000
     val meanLongitude = 280.459 + 0.98564736 * daysSinceJ2000
-    val eclipticLongitude = meanLongitude + 1.915 * sin(meanAnomaly) + 0.020 * sin(2 * meanAnomaly)
+    val eclipticLongitude = meanLongitude + 1.915 * sin(meanAnomaly.radians()) + 0.020 * sin(2 * meanAnomaly.radians())
 
-    val sunToEarthDistanceAstronomicalUnits = 1.00014 - 0.01671 * cos(meanAnomaly) - 0.00014 * cos(2 * meanAnomaly)
+    val sunToEarthDistanceAstronomicalUnits = 1.00014 - 0.01671 * cos(meanAnomaly.radians()) - 0.00014 * cos(2 * meanAnomaly.radians())
     val obliquityOfEcliptic = 23.439 - 0.00000036 * daysSinceJ2000
-    val rightAscension = atan2(cos(obliquityOfEcliptic) * sin(eclipticLongitude), cos(eclipticLongitude)) / 15
+    val rightAscension = atan2(cos(obliquityOfEcliptic.radians()) * sin(eclipticLongitude.radians()), cos(eclipticLongitude.radians())) / 15
 
-    val declination = asin(sin(obliquityOfEcliptic) * sin(eclipticLongitude))
+    val declination = asin(sin(obliquityOfEcliptic.radians()) * sin(eclipticLongitude.radians()))
     val equationOfTime = meanLongitude / 15 - rightAscension
 }
+
+fun Double.radians() = this * PI / 180.0
+fun Double.degrees() = this * 180.0 / PI
