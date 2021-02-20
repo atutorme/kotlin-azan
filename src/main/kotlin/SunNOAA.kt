@@ -2,6 +2,8 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import java.util.*
 import kotlin.math.PI
+import kotlin.math.cos
+import kotlin.math.sin
 
 /**
  * This implementation of Sun calculations is taken from the document titled:
@@ -23,5 +25,10 @@ class SunNOAA(val dateTime: LocalDateTime) {
     val hour = dateTime.hour
 
     val fractionalYear = 2.0 * PI / numDaysInYear * (dayOfYear - 1.0 + (hour - 12.0) / 24.0)
+
+    val eqTime = 229.18 * (0.000075 + 0.001868 * cos(fractionalYear) - 0.032077 * sin(fractionalYear)
+            - 0.014615 * cos(2 * fractionalYear) - 0.040849 * sin(2 * fractionalYear))
+
+    
 }
 
