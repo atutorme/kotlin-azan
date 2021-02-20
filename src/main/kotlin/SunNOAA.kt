@@ -1,4 +1,3 @@
-import java.time.LocalDate
 import java.time.LocalDateTime
 import java.util.*
 import kotlin.math.PI
@@ -11,7 +10,7 @@ import kotlin.math.sin
  * https://www.esrl.noaa.gov/gmd/grad/solcalc/solareqns.PDF
  * Retrieved on 2021-02-19
  */
-class SunNOAA(val dateTime: LocalDateTime) {
+class SunNOAA(val dateTime: LocalDateTime = LocalDateTime.now(), val location: Location = Location()) {
     companion object {
         val gregorianCalendar = GregorianCalendar()
     }
@@ -33,5 +32,6 @@ class SunNOAA(val dateTime: LocalDateTime) {
             0.006758 * cos(2 * fractionalYear) + 0.000907 * sin(2 * fractionalYear) -
             0.002697 * cos(3 * fractionalYear) + 0.00148 * sin (3 * fractionalYear)
 
+    val timeOffset = eqTime + 4 * location.longitude - 60 * location.timeZone
 }
 
