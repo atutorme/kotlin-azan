@@ -21,6 +21,3 @@ class Sun(val date: LocalDate) {
     val declination = asin(sin(obliquityOfEcliptic.radians()) * sin(eclipticLongitude.radians())).degrees()
     val equationOfTime = (meanLongitude / 15.0 - rightAscension) * 60.0 // minutes
 }
-
-fun Double.radians() = this * PI / 180.0
-fun Double.degrees() = this * 180.0 / PI

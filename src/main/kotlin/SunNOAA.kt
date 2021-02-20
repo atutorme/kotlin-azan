@@ -11,12 +11,6 @@ import kotlin.math.sin
  * Retrieved on 2021-02-19
  */
 class SunNOAA(val dateTime: LocalDateTime = LocalDateTime.now(), val location: Location = Location()) {
-    companion object {
-        val gregorianCalendar = GregorianCalendar()
-    }
-
-    fun Int.isLeapYear() = gregorianCalendar.isLeapYear(this)
-
     val numDaysInYear = if (dateTime.year.isLeapYear()) 366 else 365
 
     val dayOfYear = dateTime.dayOfYear
@@ -33,5 +27,11 @@ class SunNOAA(val dateTime: LocalDateTime = LocalDateTime.now(), val location: L
             0.002697 * cos(3 * fractionalYear) + 0.00148 * sin (3 * fractionalYear)
 
     val timeOffset = eqTime + 4 * location.longitude - 60 * location.timeZone
+
+    // True solar time
+    val tst = dateTime.hour * 60 + dateTime.minute + dateTime.second / 60.0 + timeOffset
+
+    // Hour angle
+    val ha = (tst / 4.0) - 180.0
 }
 
