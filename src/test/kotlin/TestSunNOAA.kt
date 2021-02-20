@@ -9,4 +9,5 @@ fun main() {
     println("hour: ${sunNOAA.hour}")
     println("fractionalYear: ${sunNOAA.fractionalYear}")
     println("eqTime: ${sunNOAA.eqTime}")
+    println("decl: ${sunNOAA.decl}")
 }

@@ -26,9 +26,12 @@ class SunNOAA(val dateTime: LocalDateTime) {
 
     val fractionalYear = 2.0 * PI / numDaysInYear * (dayOfYear - 1.0 + (hour - 12.0) / 24.0)
 
-    val eqTime = 229.18 * (0.000075 + 0.001868 * cos(fractionalYear) - 0.032077 * sin(fractionalYear)
-            - 0.014615 * cos(2 * fractionalYear) - 0.040849 * sin(2 * fractionalYear))
+    val eqTime = 229.18 * (0.000075 + 0.001868 * cos(fractionalYear) - 0.032077 * sin(fractionalYear) -
+            0.014615 * cos(2 * fractionalYear) - 0.040849 * sin(2 * fractionalYear))
 
-    
+    val decl = 0.006918 - 0.399912 * cos(fractionalYear) + 0.070257 * sin(fractionalYear) -
+            0.006758 * cos(2 * fractionalYear) + 0.000907 * sin(2 * fractionalYear) -
+            0.002697 * cos(3 * fractionalYear) + 0.00148 * sin (3 * fractionalYear)
+
 }
 
