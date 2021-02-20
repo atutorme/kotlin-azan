@@ -1,0 +1,27 @@
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.util.*
+import kotlin.math.PI
+
+/**
+ * This implementation of Sun calculations is taken from the document titled:
+ * "General Solar Position Calculations" produced by NOAA Global Monitoring Division
+ * https://www.esrl.noaa.gov/gmd/grad/solcalc/solareqns.PDF
+ * Retrieved on 2021-02-19
+ */
+class SunNOAA(val dateTime: LocalDateTime) {
+    companion object {
+        val gregorianCalendar = GregorianCalendar()
+    }
+
+    fun Int.isLeapYear() = gregorianCalendar.isLeapYear(this)
+
+    val numDaysInYear = if (dateTime.year.isLeapYear()) 366 else 365
+
+    val dayOfYear = dateTime.dayOfYear
+
+    val hour = dateTime.hour
+
+    val fractionalYear = 2.0 * PI / numDaysInYear * (dayOfYear - 1.0 + (hour - 12.0) / 24.0)
+}
+
