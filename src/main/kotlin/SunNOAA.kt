@@ -6,6 +6,9 @@ import kotlin.math.*
  * "General Solar Position Calculations" produced by NOAA Global Monitoring Division
  * https://www.esrl.noaa.gov/gmd/grad/solcalc/solareqns.PDF
  * Retrieved on 2021-02-19
+ *
+ * Also see: https://www.esrl.noaa.gov/gmd/grad/solcalc/calcdetails.html
+ * Retrieved on 2021-02-22
  */
 class SunNOAA(val dateTime: LocalDateTime = LocalDateTime.now(), val location: Location = Location()) {
     val numDaysInYear = if (dateTime.year.isLeapYear()) 366 else 365
@@ -36,9 +39,9 @@ class SunNOAA(val dateTime: LocalDateTime = LocalDateTime.now(), val location: L
             cos(location.latitude.radians()) * cos(decl) * cos(ha.radians()))
 
     // Solar azimuth angle - degrees
-//    val theta = 180.0 - acos(-(sin(location.latitude.radians()) * cos(phi) - sin(decl)) /
-//            (cos(location.latitude.radians()) * sin(phi))).degrees()
-    val theta = -(sin(location.latitude.radians()) * cos(phi) - sin(decl)) /
-            (cos(location.latitude.radians()) * sin(phi))
+    val theta = 180.0 - acos(-(sin(location.latitude.radians()) * cos(phi) - sin(decl)) /
+            (cos(location.latitude.radians()) * sin(phi))).degrees()
+//    val theta = -(sin(location.latitude.radians()) * cos(phi) - sin(decl)) /
+//            (cos(location.latitude.radians()) * sin(phi))
 }
 
