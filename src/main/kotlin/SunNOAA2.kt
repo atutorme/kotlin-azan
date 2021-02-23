@@ -1,5 +1,6 @@
 import java.time.LocalDateTime
 import java.time.temporal.JulianFields
+import kotlin.math.cos
 import kotlin.math.sin
 
 /**
@@ -24,5 +25,13 @@ class SunNOAA2(val dateTime: LocalDateTime = LocalDateTime.now(), val location: 
         sin(geomMeanAnomSun.radians()) * (1.914602 - julianCentury * (0.004817 + 0.000014 * julianCentury)) +
                 sin((2 * geomMeanAnomSun).radians()) * (0.019993 - 0.000101 * julianCentury) +
                 sin((3*geomMeanAnomSun).radians()) * 0.000289
+
+    val sunTrueLong : Double = geomMeanLongSun + sunEqOfCtr
+
+    val sunTrueAnom : Double = geomMeanAnomSun + sunEqOfCtr
+
+    val sunRadVector : Double = 1.000001018 * (1 - eccentEarthOrbit * eccentEarthOrbit) /
+            (1 + eccentEarthOrbit * cos(sunTrueAnom.radians()))
+
 
 }

@@ -20,4 +20,7 @@ fun main() {
     println("eccentEarthOrbit: ${sunNOAA2.eccentEarthOrbit}")
     println("eccentEarthOrbit: ${sunNOAA2.eccentEarthOrbit}")
     println("sunEqOfCtr: ${sunNOAA2.sunEqOfCtr}")
+    println("sunTrueLong: ${sunNOAA2.sunTrueLong}")
+    println("sunTrueAnom: ${sunNOAA2.sunTrueAnom}")
+    println("sunRadVector: ${sunNOAA2.sunRadVector}")
 }
