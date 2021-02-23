@@ -1,7 +1,6 @@
 import java.time.LocalDateTime
 import java.time.temporal.JulianFields
-import kotlin.math.cos
-import kotlin.math.sin
+import kotlin.math.*
 
 /**
  * Alternate implementation of Solar Calculations
@@ -33,41 +32,41 @@ class SunNOAA2(val dateTime: LocalDateTime = LocalDateTime.now(), val location: 
     val sunRadVector : Double = 1.000001018 * (1 - eccentEarthOrbit * eccentEarthOrbit) /
             (1 + eccentEarthOrbit * cos(sunTrueAnom.radians()))
 
-    val sunAppLong : Double = M2-0.00569-0.00478*SIN(RADIANS(125.04-1934.136*G2))
+    val sunAppLong : Double = sunTrueLong - 0.00569 - 0.00478 * sin(RADIANS(125.04-1934.136*julianCentury))
 
-    val meanObliqEcliptic : Double = M2-0.00569-0.00478*SIN(RADIANS(125.04-1934.136*G2))
+    val meanObliqEcliptic : Double = sunTrueLong-0.00569-0.00478*sin(RADIANS(125.04-1934.136*julianCentury))
 
-    val obliqCorr : Double = Q2+0.00256*COS(RADIANS(125.04-1934.136*G2))
+    val obliqCorr : Double = meanObliqEcliptic+0.00256*cos(RADIANS(125.04-1934.136*julianCentury))
 
-    val sunRtAscen : Double = DEGREES(ATAN2(COS(RADIANS(P2)),COS(RADIANS(R2))*SIN(RADIANS(P2))))
+    val sunRtAscen : Double = DEGREES(atan2(cos(RADIANS(sunAppLong)),cos(RADIANS(obliqCorr))*sin(RADIANS(sunAppLong))))
 
-    val sunDeclin : Double = DEGREES(ASIN(SIN(RADIANS(R2))*SIN(RADIANS(P2))))
+    val sunDeclin : Double = DEGREES(asin(sin(RADIANS(obliqCorr))*sin(RADIANS(sunAppLong))))
 
-    val varY : Double = TAN(RADIANS(R2/2))*TAN(RADIANS(R2/2))
+    val varY : Double = tan(RADIANS(obliqCorr/2))*tan(RADIANS(obliqCorr/2))
 
-    val eqOfTime : Double = 4*DEGREES(U2*SIN(2*RADIANS(I2))-2*K2*SIN(RADIANS(J2))+4*K2*U2*SIN(RADIANS(J2))*COS(2*RADIANS(I2))-0.5*U2*U2*SIN(4*RADIANS(I2))-1.25*K2*K2*SIN(2*RADIANS(J2)))
+    val eqOfTime : Double = 4*DEGREES(varY*sin(2*RADIANS(geomMeanLongSun))-2*eccentEarthOrbit*sin(RADIANS(geomMeanAnomSun))+4*eccentEarthOrbit*varY*sin(RADIANS(geomMeanAnomSun))*cos(2*RADIANS(geomMeanLongSun))-0.5*varY*varY*sin(4*RADIANS(geomMeanLongSun))-1.25*eccentEarthOrbit*eccentEarthOrbit*sin(2*RADIANS(geomMeanAnomSun)))
 
-    val haSunrise : Double = DEGREES(ACOS(COS(RADIANS(90.833))/(COS(RADIANS($B$2))*COS(RADIANS(T2)))-TAN(RADIANS($B$2))*TAN(RADIANS(T2))))
+    val haSunrise : Double = DEGREES(acos(cos(RADIANS(90.833))/(cos(RADIANS(location.latitude))*cos(RADIANS(sunDeclin)))-tan(RADIANS(location.latitude))*tan(RADIANS(sunDeclin))))
 
-    val solarNoon : Double = (720-4*$B$3-V2+$B$4*60)/1440
+    val solarNoon : Double = (720-4*location.longitude-eqOfTime+location.timeZone*60)/1440
 
-    val sunriseTime : Double = (X2*1440-W2*4)/1440
+    val sunriseTime : Double = (solarNoon*1440-haSunrise*4)/1440
 
-    val sunsetTime : Double = (X2*1440+W2*4)/1440
+    val sunsetTime : Double = (solarNoon*1440+haSunrise*4)/1440
 
-    val sunlightDuration : Double = 8*W2
+    val sunlightDuration : Double = 8*haSunrise
 
-    val trueSolarTime : Double = MOD(E2*1440+V2+4*$B$3-60*$B$4,1440)
+    val trueSolarTime : Double = MOD(dateTime.hour * 60 + dateTime.minute +eqOfTime+4*location.longitude-60*location.timeZone,1440)
 
-    val hourAngle : Double = IF(AB2/4<0,AB2/4+180,AB2/4-180)
+    val hourAngle : Double = IF(trueSolarTime/4<0,trueSolarTime/4+180,trueSolarTime/4-180)
 
-    val solarZenithAngle : Double = DEGREES(ACOS(SIN(RADIANS($B$2))*SIN(RADIANS(T2))+COS(RADIANS($B$2))*COS(RADIANS(T2))*COS(RADIANS(AC2))))
+    val solarZenithAngle : Double = DEGREES(acos(sin(RADIANS(location.latitude))*sin(RADIANS(sunDeclin))+cos(RADIANS(location.latitude))*cos(RADIANS(sunDeclin))*cos(RADIANS(hourAngle))))
 
-    val solarElevationAngle : Double = 90-AD2
+    val solarElevationAngle : Double = 90-solarZenithAngle
 
-    val approxAtmosphericRefraction : Double = IF(AE2>85,0,IF(AE2>5,58.1/TAN(RADIANS(AE2))-0.07/POWER(TAN(RADIANS(AE2)),3)+0.000086/POWER(TAN(RADIANS(AE2)),5),IF(AE2>-0.575,1735+AE2*(-518.2+AE2*(103.4+AE2*(-12.79+AE2*0.711))),-20.772/TAN(RADIANS(AE2)))))/3600
+    val approxAtmosphericRefraction : Double = IF(solarElevationAngle>85,0,IF(solarElevationAngle>5,58.1/tan(RADIANS(solarElevationAngle))-0.07/POWER(tan(RADIANS(solarElevationAngle)),3)+0.000086/POWER(tan(RADIANS(solarElevationAngle)),5),IF(solarElevationAngle>-0.575,1735+solarElevationAngle*(-518.2+solarElevationAngle*(103.4+solarElevationAngle*(-12.79+solarElevationAngle*0.711))),-20.772/tan(RADIANS(solarElevationAngle)))))/3600
 
-    val solarElevationCorrectedForAtmRefraction = AE2+AF2
+    val solarElevationCorrectedForAtmRefraction = solarElevationAngle+approxAtmosphericRefraction
 
-    val solarAzimuthAngle = IF(AC2>0,MOD(DEGREES(ACOS(((SIN(RADIANS($B$2))*COS(RADIANS(AD2)))-SIN(RADIANS(T2)))/(COS(RADIANS($B$2))*SIN(RADIANS(AD2)))))+180,360),MOD(540-DEGREES(ACOS(((SIN(RADIANS($B$2))*COS(RADIANS(AD2)))-SIN(RADIANS(T2)))/(COS(RADIANS($B$2))*SIN(RADIANS(AD2))))),360))
+    val solarAzimuthAngle = IF(hourAngle>0,MOD(DEGREES(acos(((sin(RADIANS(location.latitude))*cos(RADIANS(solarZenithAngle)))-sin(RADIANS(sunDeclin)))/(cos(RADIANS(location.latitude))*sin(RADIANS(solarZenithAngle)))))+180,360),MOD(540-DEGREES(acos(((sin(RADIANS(location.latitude))*cos(RADIANS(solarZenithAngle)))-sin(RADIANS(sunDeclin)))/(cos(RADIANS(location.latitude))*sin(RADIANS(solarZenithAngle))))),360))
 }
