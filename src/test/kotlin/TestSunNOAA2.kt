@@ -16,4 +16,6 @@ fun main() {
     println("julianDay: ${sunNOAA2.julianDay}")
     println("julianCentury: ${sunNOAA2.julianCentury}")
     println("geomMeanLongSun: ${sunNOAA2.geomMeanLongSun}")
+    println("geomMeanAnomSun: ${sunNOAA2.geomMeanAnomSun}")
+    println("eccentEarthOrbit: ${sunNOAA2.eccentEarthOrbit}")
 }

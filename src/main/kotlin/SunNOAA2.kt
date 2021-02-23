@@ -12,4 +12,8 @@ class SunNOAA2(val dateTime: LocalDateTime = LocalDateTime.now(), val location: 
 
     val geomMeanLongSun = julianCentury.geomMeanLongSun()
 
+    val geomMeanAnomSun =julianCentury.geomMeanAnomSun()
+
+    val eccentEarthOrbit =julianCentury.eccentEarthOrbit()
+
 }
