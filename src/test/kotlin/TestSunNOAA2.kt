@@ -18,4 +18,6 @@ fun main() {
     println("geomMeanLongSun: ${sunNOAA2.geomMeanLongSun}")
     println("geomMeanAnomSun: ${sunNOAA2.geomMeanAnomSun}")
     println("eccentEarthOrbit: ${sunNOAA2.eccentEarthOrbit}")
+    println("eccentEarthOrbit: ${sunNOAA2.eccentEarthOrbit}")
+    println("sunEqOfCtr: ${sunNOAA2.sunEqOfCtr}")
 }
