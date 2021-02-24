@@ -8,11 +8,12 @@ class SalatTimes(val dateTime: LocalDateTime = LocalDateTime.now(),
 ) {
     val sunNOAA2 = SunNOAA2(dateTime, location)
 
-//    val sunrise = sunNOAA2.sunriseTimeAltitudeCorrected
-//    val sunset = sunNOAA2.sunsetTimeAltitudeCorrected
+    val sunrise = sunNOAA2.sunriseTimeAltitudeCorrected
+    val sunset = sunNOAA2.sunsetTimeAltitudeCorrected
 
-    val sunrise = sunNOAA2.sunriseTime
-    val sunset = sunNOAA2.sunsetTime
+    // IslamicFinder.org does not take into account the altitude
+//    val sunrise = sunNOAA2.sunriseTime
+//    val sunset = sunNOAA2.sunsetTime
 
     val dhuhr = sunNOAA2.solarNoon
     val maghrib = sunset
