@@ -49,14 +49,15 @@ class SunNOAA2(val dateTime: LocalDateTime = LocalDateTime.now(), val location: 
             0.5 * varY * varY * sin(4 * geomMeanLongSun.radians()) -
             1.25 * eccentEarthOrbit * eccentEarthOrbit * sin(2 * geomMeanAnomSun.radians())).degrees()
 
-    val haSunrise : Double = (acos(cos(90.833.radians()) /
+    // See http://praytimes.org/wiki/Prayer_Times_Calculation for correction for higher elevation
+    fun t(alpha: Double, applyAltitudeCorrection: Boolean = true) =
+        (acos(cos((90 + alpha + if(applyAltitudeCorrection) + 0.0347 * sqrt(location.altitude) else 0.0).radians()) /
             (cos(location.latitude.radians()) * cos(sunDeclin.radians())) -
             tan(location.latitude.radians()) * tan(sunDeclin.radians()))).degrees()
 
-    // See http://praytimes.org/wiki/Prayer_Times_Calculation for correction for higher elevation
-    val haSunriseAltitudeCorrected : Double = (acos(cos((90.833 + 0.0347 * sqrt(location.altitude)).radians()) /
-            (cos(location.latitude.radians()) * cos(sunDeclin.radians())) -
-            tan(location.latitude.radians()) * tan(sunDeclin.radians()))).degrees()
+    val haSunrise : Double = t(0.833, false)
+
+    val haSunriseAltitudeCorrected : Double = t(0.833)
 
     val solarNoon : Double = (720.0 - 4.0 * location.longitude - eqOfTime + location.timeZone * 60.0) / 1440.0
 
@@ -69,6 +70,8 @@ class SunNOAA2(val dateTime: LocalDateTime = LocalDateTime.now(), val location: 
     val sunsetTimeAltitudeCorrected : Double = (solarNoon * 1440.0 + haSunriseAltitudeCorrected * 4.0) / 1440.0
 
     val sunlightDuration : Double = 8.0 * haSunrise
+
+    val sunlightDurationAltitudeCorrected : Double = 8.0 * haSunriseAltitudeCorrected
 
     val trueSolarTime : Double = (dateTime.hour * 60.0 + dateTime.minute + eqOfTime + 4.0 * location.longitude -
             60.0 * location.timeZone) % 1440.0
