@@ -38,6 +38,7 @@ fun main() {
     println("sunsetTime: ${sunNOAA2.sunsetTime.toHMS()}")
     println("sunsetTimeAltitudeCorrected: ${sunNOAA2.sunsetTimeAltitudeCorrected.toHMS()}")
     println("sunlightDuration: ${sunNOAA2.sunlightDuration}")
+    println("sunlightDurationAltitudeCorrected: ${sunNOAA2.sunlightDurationAltitudeCorrected}")
     println("trueSolarTime: ${sunNOAA2.trueSolarTime}")
     println("hourAngle: ${sunNOAA2.hourAngle}")
     println("solarZenithAngle: ${sunNOAA2.solarZenithAngle}")

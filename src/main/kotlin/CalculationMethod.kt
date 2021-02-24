@@ -11,7 +11,8 @@ enum class CalculationMethod(val niceName: String,
     SHIA_ITHNA_ASHARI_LEVA_RESEARCH_INSTITUTE_QUM("Shia Ithna Ashari, Leva Research Institute, Qum", 16.0, 14.0)
 }
 
-enum class JuristicMethod(niceName: String) {
-    MAJORITY("Majority"),
-    HANAFI("Hanafi")
+enum class JuristicMethod(val niceName: String,
+                          val shadowLength: Double) {
+    MAJORITY("Majority", 1.0),
+    HANAFI("Hanafi", 2.0)
 }
