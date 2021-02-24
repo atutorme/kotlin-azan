@@ -5,7 +5,7 @@ fun main() {
         "NOAA Test",
         40.0,
         -105.0,
-        0.0,
+        1000.0,
         -7.0
     )
 
@@ -31,9 +31,12 @@ fun main() {
     println("varY: ${sunNOAA2.varY}")
     println("eqOfTime: ${sunNOAA2.eqOfTime}")
     println("haSunrise: ${sunNOAA2.haSunrise}")
+    println("haSunriseAltitudeCorrected: ${sunNOAA2.haSunriseAltitudeCorrected}")
     println("solarNoon: ${sunNOAA2.solarNoon.toHMS()}")
     println("sunriseTime: ${sunNOAA2.sunriseTime.toHMS()}")
+    println("sunriseTimeAltitudeCorrected: ${sunNOAA2.sunriseTimeAltitudeCorrected.toHMS()}")
     println("sunsetTime: ${sunNOAA2.sunsetTime.toHMS()}")
+    println("sunsetTimeAltitudeCorrected: ${sunNOAA2.sunsetTimeAltitudeCorrected.toHMS()}")
     println("sunlightDuration: ${sunNOAA2.sunlightDuration}")
     println("trueSolarTime: ${sunNOAA2.trueSolarTime}")
     println("hourAngle: ${sunNOAA2.hourAngle}")

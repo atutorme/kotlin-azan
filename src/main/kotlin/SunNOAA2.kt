@@ -53,11 +53,20 @@ class SunNOAA2(val dateTime: LocalDateTime = LocalDateTime.now(), val location: 
             (cos(location.latitude.radians()) * cos(sunDeclin.radians())) -
             tan(location.latitude.radians()) * tan(sunDeclin.radians()))).degrees()
 
+    // See http://praytimes.org/wiki/Prayer_Times_Calculation for correction for higher elevation
+    val haSunriseAltitudeCorrected : Double = (acos(cos((90.833 + 0.0347 * sqrt(location.altitude)).radians()) /
+            (cos(location.latitude.radians()) * cos(sunDeclin.radians())) -
+            tan(location.latitude.radians()) * tan(sunDeclin.radians()))).degrees()
+
     val solarNoon : Double = (720.0 - 4.0 * location.longitude - eqOfTime + location.timeZone * 60.0) / 1440.0
 
     val sunriseTime : Double = (solarNoon * 1440.0 - haSunrise * 4.0) / 1440.0
 
+    val sunriseTimeAltitudeCorrected : Double = (solarNoon * 1440.0 - haSunriseAltitudeCorrected * 4.0) / 1440.0
+
     val sunsetTime : Double = (solarNoon * 1440.0 + haSunrise * 4.0) / 1440.0
+
+    val sunsetTimeAltitudeCorrected : Double = (solarNoon * 1440.0 + haSunriseAltitudeCorrected * 4.0) / 1440.0
 
     val sunlightDuration : Double = 8.0 * haSunrise
 
