@@ -9,8 +9,7 @@ import kotlin.math.*
  */
 class SunNOAA2(val dateTime: LocalDateTime = LocalDateTime.now(), val location: Location = Location()) {
 
-    val julianDay : Double = JulianFields.JULIAN_DAY.getFrom(dateTime) +
-                dateTime.hour / 24.0 + dateTime.minute / (1440.0) - location.timeZone / 24.0
+    val julianDay : Double = JulianFields.JULIAN_DAY.getFrom(dateTime) - location.timeZone / 24.0
 
     val julianCentury : Double = (julianDay - 2451545.0) / 36525.0
 

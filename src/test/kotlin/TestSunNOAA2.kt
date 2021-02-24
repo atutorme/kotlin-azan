@@ -9,7 +9,7 @@ fun main() {
         -7.0
     )
 
-    val dt = LocalDateTime.of(2010, 1, 1, 0, 0)
+    val dt = LocalDateTime.of(2010, 1, 1, 12, 0)
 
     val sunNOAA2 = SunNOAA2(dt, loc)
 
