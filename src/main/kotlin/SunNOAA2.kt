@@ -34,7 +34,8 @@ class SunNOAA2(val dateTime: LocalDateTime = LocalDateTime.now(), val location: 
 
     val sunAppLong : Double = sunTrueLong - 0.00569 - 0.00478 * sin((125.04-1934.136 * julianCentury).radians())
 
-    val meanObliqEcliptic : Double = sunTrueLong - 0.00569 - 0.00478 * sin((125.04 - 1934.136 * julianCentury).radians())
+    val meanObliqEcliptic : Double = 23.0 + (26.0 + ((21.448 - julianCentury * (46.815 + julianCentury *
+            (0.00059 - julianCentury * 0.001813)))) / 60.0 ) / 60.0
 
     val obliqCorr : Double = meanObliqEcliptic + 0.00256 * cos((125.04 - 1934.136 * julianCentury).radians())
 
