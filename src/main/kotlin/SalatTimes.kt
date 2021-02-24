@@ -8,15 +8,18 @@ class SalatTimes(val dateTime: LocalDateTime = LocalDateTime.now(),
 ) {
     val sunNOAA2 = SunNOAA2(dateTime, location)
 
-    val sunrise = sunNOAA2.sunriseTimeAltitudeCorrected
-    val sunset = sunNOAA2.sunsetTimeAltitudeCorrected
+//    val sunrise = sunNOAA2.sunriseTimeAltitudeCorrected
+//    val sunset = sunNOAA2.sunsetTimeAltitudeCorrected
+
+    val sunrise = sunNOAA2.sunriseTime
+    val sunset = sunNOAA2.sunsetTime
 
     val dhuhr = sunNOAA2.solarNoon
     val maghrib = sunset
 
-    val fajr = dhuhr - sunNOAA2.t(calculationMethod.fajrAngle)
-    val isha = if (calculationMethod.overrideIshaDelayMins == null) dhuhr + sunNOAA2.t(calculationMethod.ishaAngle)
-    else maghrib + calculationMethod.overrideIshaDelayMins / 1440.0
+    val fajr = dhuhr - sunNOAA2.t(calculationMethod.fajrAngle) / 360.0
+    val isha = if (calculationMethod.overrideIshaDelayMins == null) dhuhr + sunNOAA2.t(calculationMethod.ishaAngle) / 360.0
+    else maghrib + calculationMethod.overrideIshaDelayMins
 
     val asr = a(juristicMethod.shadowLength)
 
