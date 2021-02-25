@@ -4,22 +4,19 @@ import kotlin.math.*
 class SalatTimes(val dateTime: LocalDateTime = LocalDateTime.now(),
                  val location: Location = Location(),
                  val calculationMethod: CalculationMethod = CalculationMethod.MUSLIM_WORLD_LEAGUE,
-                 val juristicMethod: JuristicMethod = JuristicMethod.MAJORITY
+                 val juristicMethod: JuristicMethod = JuristicMethod.MAJORITY,
+                 val adjustForAltitude: Boolean = true
 ) {
     val sunNOAA2 = SunNOAA2(dateTime, location)
 
-    val sunrise = sunNOAA2.sunriseTimeAltitudeCorrected
-    val sunset = sunNOAA2.sunsetTimeAltitudeCorrected
-
-    // IslamicFinder.org does not take into account the altitude
-//    val sunrise = sunNOAA2.sunriseTime
-//    val sunset = sunNOAA2.sunsetTime
+    val sunrise = if (adjustForAltitude) sunNOAA2.sunriseTimeAltitudeCorrected else sunNOAA2.sunriseTime
+    val sunset = if (adjustForAltitude) sunNOAA2.sunsetTimeAltitudeCorrected else sunNOAA2.sunsetTime
 
     val dhuhr = sunNOAA2.solarNoon
     val maghrib = sunset
 
-    val fajr = dhuhr - sunNOAA2.t(calculationMethod.fajrAngle) / 360.0
-    val isha = if (calculationMethod.overrideIshaDelayMins == null) dhuhr + sunNOAA2.t(calculationMethod.ishaAngle) / 360.0
+    val fajr = dhuhr - sunNOAA2.t(calculationMethod.fajrAngle, adjustForAltitude) / 360.0
+    val isha = if (calculationMethod.overrideIshaDelayMins == null) dhuhr + sunNOAA2.t(calculationMethod.ishaAngle, adjustForAltitude) / 360.0
     else maghrib + calculationMethod.overrideIshaDelayMins
 
     val asr = a(juristicMethod.shadowLength)
