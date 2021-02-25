@@ -7,7 +7,7 @@ class SalatTimes(val dateTime: LocalDateTime = LocalDateTime.now(),
                  val juristicMethod: JuristicMethod = JuristicMethod.MAJORITY,
                  val adjustForAltitude: Boolean = true
 ) {
-    val sunNOAA2 = SunNOAA2(dateTime, location)
+    val sunNOAA2 = Sun(dateTime, location)
 
     val sunrise = if (adjustForAltitude) sunNOAA2.sunriseTimeAltitudeCorrected else sunNOAA2.sunriseTime
     val sunset = if (adjustForAltitude) sunNOAA2.sunsetTimeAltitudeCorrected else sunNOAA2.sunsetTime

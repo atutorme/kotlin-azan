@@ -11,7 +11,7 @@ fun main() {
 
     val dt = LocalDateTime.of(2010, 1, 1, 12, 0)
 
-    val sunNOAA2 = SunNOAA2(dt, loc)
+    val sunNOAA2 = Sun(dt, loc)
 
     println("julianDay: ${sunNOAA2.julianDay}")
     println("julianCentury: ${sunNOAA2.julianCentury}")
