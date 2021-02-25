@@ -19,11 +19,11 @@ class SalatTimes(val dateTime: LocalDateTime = LocalDateTime.now(),
     val isha = if (calculationMethod.overrideIshaDelayMins == null) dhuhr + sunNOAA2.t(calculationMethod.ishaAngle, adjustForAltitude) / 360.0
     else maghrib + calculationMethod.overrideIshaDelayMins
 
-    val asr = a(juristicMethod.shadowLength)
+    val asr = dhuhr + a(juristicMethod.shadowLength)
 
-    fun a(shadowLength: Double) : Double = (sin(acot(shadowLength + tan((location.latitude - sunNOAA2.sunDeclin).radians()))) /
+    fun a(shadowLength: Double) : Double = acos(sin(acot(shadowLength + tan((location.latitude - sunNOAA2.sunDeclin).radians()))) /
                 (cos(location.latitude.radians()) * cos(sunNOAA2.sunDeclin.radians())) -
-                tan(location.latitude.radians()) * tan(sunNOAA2.sunDeclin.radians())) / 15.0
+                tan(location.latitude.radians()) * tan(sunNOAA2.sunDeclin.radians())).degrees() / 360.0
 }
 
 fun acot(x: Double) : Double = atan(1.0 / x)
