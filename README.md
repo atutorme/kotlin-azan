@@ -5,3 +5,5 @@ More idiomatic Kotlin implementation of Azan, Adhan, Azaan, Adhaan, Athan, Athaa
 http://praytimes.org/wiki/Prayer_Times_Calculation  
 
 https://en.wikipedia.org/wiki/Position_of_the_Sun
+
+https://www.esrl.noaa.gov/gmd/grad/solcalc/calcdetails.html
