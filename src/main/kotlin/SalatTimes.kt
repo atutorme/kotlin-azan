@@ -15,10 +15,12 @@ class SalatTimes(val dateTime: LocalDateTime = LocalDateTime.now(),
                  val calculationMethod: CalculationMethod = CalculationMethod.MUSLIM_WORLD_LEAGUE,
                  val juristicMethod: JuristicMethod = JuristicMethod.MAJORITY,
                  val adjustForAltitude: Boolean = true,
-                 val adjustForExtremeLatitudes: Boolean = true
+                 val adjustForExtremeLatitudes: Boolean = true,
+                 val applyDaylightSavings: Boolean = false
 ) {
     val sun = Sun(dateTime, location)
     val sunExtreme = Sun(dateTime, location.closestLocationForExtremeLatitudes())
+    val dst = if (applyDaylightSavings) 1.0 / 24.0 else 0.0
 
     val sunrise = if (adjustForAltitude) sun.sunriseTimeAltitudeCorrected else sun.sunriseTime
     val sunset = if (adjustForAltitude) sun.sunsetTimeAltitudeCorrected else sun.sunsetTime
@@ -45,12 +47,12 @@ class SalatTimes(val dateTime: LocalDateTime = LocalDateTime.now(),
     val asrExtreme = dhuhrExtreme + a(juristicMethod.shadowLength, sunExtreme)
 
     val salatTimestamps: Map<String, String> get() = mapOf(
-        SalatNames.FAJR.niceName to if (adjustForExtremeLatitudes) fajrExtreme.toHMS() else fajr.toHMS(),
-        SalatNames.SUNRISE.niceName to if (adjustForExtremeLatitudes && location.latitudeCategory == LatitudeCategory.CATEGORY_3) sunriseExtreme.toHMS() else sunrise.toHMS(),
-        SalatNames.DHUHR.niceName to if (adjustForExtremeLatitudes && location.latitudeCategory == LatitudeCategory.CATEGORY_3) dhuhrExtreme.toHMS() else dhuhr.toHMS(),
-        SalatNames.ASR.niceName to if (adjustForExtremeLatitudes && location.latitudeCategory == LatitudeCategory.CATEGORY_3) asrExtreme.toHMS() else asr.toHMS(),
-        SalatNames.MAGHRIB.niceName to if (adjustForExtremeLatitudes && location.latitudeCategory == LatitudeCategory.CATEGORY_3) maghribExtreme.toHMS() else maghrib.toHMS(),
-        SalatNames.ISHA.niceName to if (adjustForExtremeLatitudes) ishaExtreme.toHMS() else isha.toHMS(),
+        SalatNames.FAJR.niceName to (dst + if (adjustForExtremeLatitudes) fajrExtreme else fajr).toHMS(),
+        SalatNames.SUNRISE.niceName to (dst + if (adjustForExtremeLatitudes && location.latitudeCategory == LatitudeCategory.CATEGORY_3) sunriseExtreme else sunrise).toHMS(),
+        SalatNames.DHUHR.niceName to (dst + if (adjustForExtremeLatitudes && location.latitudeCategory == LatitudeCategory.CATEGORY_3) dhuhrExtreme else dhuhr).toHMS(),
+        SalatNames.ASR.niceName to (dst + if (adjustForExtremeLatitudes && location.latitudeCategory == LatitudeCategory.CATEGORY_3) asrExtreme else asr).toHMS(),
+        SalatNames.MAGHRIB.niceName to (dst + if (adjustForExtremeLatitudes && location.latitudeCategory == LatitudeCategory.CATEGORY_3) maghribExtreme else maghrib).toHMS(),
+        SalatNames.ISHA.niceName to (dst + if (adjustForExtremeLatitudes) ishaExtreme else isha).toHMS(),
     )
 
     fun a(shadowLength: Double, sun: Sun) : Double = acos(sin(acot(shadowLength + tan((location.latitude - sun.sunDeclin).radians()))) /

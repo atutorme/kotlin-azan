@@ -26,7 +26,7 @@ fun main() {
     println(salatTimesNuukGreenland.salatTimestamps)
 
     val salatTimesNuukGreenlandSummer = SalatTimes(location = Location("Nuuk", 64.175, -51.736, 16.0, -3.0),
-    dateTime = LocalDateTime.of(2021, 6, 30, 0, 0, 0))
+    dateTime = LocalDateTime.of(2021, 6, 30, 0, 0, 0), applyDaylightSavings = true)
 
     println("NUUK Summer fajr: ${salatTimesNuukGreenlandSummer.fajr.toHMS()}")
     println("NUUK Summer sunrise: ${salatTimesNuukGreenlandSummer.sunrise.toHMS()}")
