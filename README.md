@@ -31,3 +31,13 @@ _Example - salat times on 26 Feb 2021_:
 - Makkah sunrise (with altitude correction): 06:40:51
 - Makkah sunset (no altitude correction - IslamicFinder): 06:24PM
 - Makkah sunset (with altitude correction): 18:26:14
+
+### Definition of night - for midnight, tahajjud (last third of night), etc.
+The definition of night used in calculation of midnight is based on the following fiqh statements:  
+1. "ثانياً : تحديد نصف الليل يكون بحساب الوقت من مغيب الشمس إلى طلوع الفجر، فنصف ما بينهما هو آخر وقت العشاء الاختياري"  
+   Source 1: [أسئلة حول مواقيت الصلاة](https://islamqa.info/ar/answers/132950/%D8%A7%D8%B3%D9%89%D9%84%D8%A9-%D8%AD%D9%88%D9%84-%D9%85%D9%88%D8%A7%D9%82%D9%8A%D8%AA-%D8%A7%D9%84%D8%B5%D9%84%D8%A7%D8%A9)
+2. "وأما كيفية معرفة نصف الليل الذي ينتهي به الوقت المختار للعشاء، على قول بعض أهل العلم، فإن الليل يبدأ من غروب الشمس وينتهي بطلوع الفجر، ونصفه معناه شطره.
+   فإذا كانت الشمس تغرب مثلاً الساعة السادسة مساءاً والفجر يطلع الساعة السادسة صباحاً، فإن منتصف الليل يكون عند الساعة الثانية عشرة."  
+   Source 2: [كيفية حساب نصف الليل](https://www.islamweb.net/ar/fatwa/31162/%D9%83%D9%8A%D9%81%D9%8A%D8%A9-%D8%AD%D8%B3%D8%A7%D8%A8-%D9%86%D8%B5%D9%81-%D8%A7%D9%84%D9%84%D9%8A%D9%84)
+   
+That is: the night begins at _sunset_ and ends at _fajr_ (**not** sunrise).
