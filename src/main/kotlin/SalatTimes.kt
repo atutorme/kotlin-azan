@@ -67,6 +67,29 @@ class SalatTimes(val dateTime: LocalDateTime = LocalDateTime.now(),
     fun a(shadowLength: Double, sun: Sun) : Double = acos(sin(acot(shadowLength + tan((location.latitude - sun.sunDeclin).radians()))) /
                 (cos(location.latitude.radians()) * cos(sun.sunDeclin.radians())) -
                 tan(location.latitude.radians()) * tan(sun.sunDeclin.radians())).degrees() / 360.0
+
+    // I have made these as functions instead of properties to avoid a circular calculation of salat times - i.e. the new property would call a new property for the day after and so on!
+    fun tomorrowFajr() : Double = SalatTimes(dateTime.plusDays(1),
+        location, calculationMethod, juristicMethod, adjustForAltitude, adjustForExtremeLatitudes, applyDaylightSavings).fajr
+
+    fun tomorrowFajrExtreme() : Double = SalatTimes(dateTime.plusDays(1),
+        location, calculationMethod, juristicMethod, adjustForAltitude, adjustForExtremeLatitudes, applyDaylightSavings).fajrExtreme
+
+    fun nightDuration() : Double = tomorrowFajr() - isha
+
+    fun nightDurationExtreme() : Double = tomorrowFajrExtreme() - ishaExtreme
+
+    fun midnight() : Double = isha + nightDuration() / 2.0
+
+    fun midnightExtreme() : Double = ishaExtreme + nightDurationExtreme() / 2.0
+
+    fun firstThird() : Double = isha + nightDuration() / 3.0
+
+    fun firstThirdExtreme() : Double = ishaExtreme + nightDurationExtreme() / 3.0
+
+    fun lastThird() : Double = isha + nightDuration() * 2.0 / 3.0
+
+    fun lastThirdExtreme() : Double = ishaExtreme + nightDurationExtreme() * 2.0 / 3.0
 }
 
 fun acot(x: Double) : Double = atan(1.0 / x)
