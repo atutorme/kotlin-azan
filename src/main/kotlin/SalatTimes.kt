@@ -55,6 +55,15 @@ class SalatTimes(val dateTime: LocalDateTime = LocalDateTime.now(),
         SalatNames.ISHA.niceName to (dst + if (adjustForExtremeLatitudes) ishaExtreme else isha).toHMS(),
     )
 
+    val salatDateTimes: Map<String, LocalDateTime> get() = mapOf(
+        SalatNames.FAJR.niceName to (dst + if (adjustForExtremeLatitudes) fajrExtreme else fajr).dateTime(dateTime),
+        SalatNames.SUNRISE.niceName to (dst + if (adjustForExtremeLatitudes && location.latitudeCategory == LatitudeCategory.CATEGORY_3) sunriseExtreme else sunrise).dateTime(dateTime),
+        SalatNames.DHUHR.niceName to (dst + if (adjustForExtremeLatitudes && location.latitudeCategory == LatitudeCategory.CATEGORY_3) dhuhrExtreme else dhuhr).dateTime(dateTime),
+        SalatNames.ASR.niceName to (dst + if (adjustForExtremeLatitudes && location.latitudeCategory == LatitudeCategory.CATEGORY_3) asrExtreme else asr).dateTime(dateTime),
+        SalatNames.MAGHRIB.niceName to (dst + if (adjustForExtremeLatitudes && location.latitudeCategory == LatitudeCategory.CATEGORY_3) maghribExtreme else maghrib).dateTime(dateTime),
+        SalatNames.ISHA.niceName to (dst + if (adjustForExtremeLatitudes) ishaExtreme else isha).dateTime(dateTime),
+    )
+
     fun a(shadowLength: Double, sun: Sun) : Double = acos(sin(acot(shadowLength + tan((location.latitude - sun.sunDeclin).radians()))) /
                 (cos(location.latitude.radians()) * cos(sun.sunDeclin.radians())) -
                 tan(location.latitude.radians()) * tan(sun.sunDeclin.radians())).degrees() / 360.0
