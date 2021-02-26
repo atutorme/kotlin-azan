@@ -56,8 +56,8 @@ class SalatTimes(val dateTime: LocalDateTime = LocalDateTime.now(),
         SalatNames.ASR.niceName to (dst + if (adjustForExtremeLatitudes && location.latitudeCategory == LatitudeCategory.CATEGORY_3) asrExtreme else asr).toHMS(),
         SalatNames.MAGHRIB.niceName to (dst + if (adjustForExtremeLatitudes && location.latitudeCategory == LatitudeCategory.CATEGORY_3) maghribExtreme else maghrib).toHMS(),
         SalatNames.ISHA.niceName to (dst + if (adjustForExtremeLatitudes) ishaExtreme else isha).toHMS(),
-        SalatNames.FIRST_THIRD.niceName to (dst + if (adjustForExtremeLatitudes) midnight() else midnightExtreme()).toHMS(),
-        SalatNames.MIDNIGHT.niceName to (dst + if (adjustForExtremeLatitudes) firstThird() else firstThirdExtreme()).toHMS(),
+        SalatNames.FIRST_THIRD.niceName to (dst + if (adjustForExtremeLatitudes) firstThird() else firstThirdExtreme()).toHMS(),
+        SalatNames.MIDNIGHT.niceName to (dst + if (adjustForExtremeLatitudes) midnight() else midnightExtreme()).toHMS(),
         SalatNames.LAST_THIRD.niceName to (dst + if (adjustForExtremeLatitudes) lastThird() else lastThirdExtreme()).toHMS(),
     )
 
@@ -68,8 +68,8 @@ class SalatTimes(val dateTime: LocalDateTime = LocalDateTime.now(),
         SalatNames.ASR.niceName to (dst + if (adjustForExtremeLatitudes && location.latitudeCategory == LatitudeCategory.CATEGORY_3) asrExtreme else asr).dateTime(dateTime),
         SalatNames.MAGHRIB.niceName to (dst + if (adjustForExtremeLatitudes && location.latitudeCategory == LatitudeCategory.CATEGORY_3) maghribExtreme else maghrib).dateTime(dateTime),
         SalatNames.ISHA.niceName to (dst + if (adjustForExtremeLatitudes) ishaExtreme else isha).dateTime(dateTime),
-        SalatNames.FIRST_THIRD.niceName to (dst + if (adjustForExtremeLatitudes) midnight() else midnightExtreme()).dateTime(dateTime),
-        SalatNames.MIDNIGHT.niceName to (dst + if (adjustForExtremeLatitudes) firstThird() else firstThirdExtreme()).dateTime(dateTime),
+        SalatNames.FIRST_THIRD.niceName to (dst + if (adjustForExtremeLatitudes) firstThird() else firstThirdExtreme()).dateTime(dateTime),
+        SalatNames.MIDNIGHT.niceName to (dst + if (adjustForExtremeLatitudes) midnight() else midnightExtreme()).dateTime(dateTime),
         SalatNames.LAST_THIRD.niceName to (dst + if (adjustForExtremeLatitudes) lastThird() else lastThirdExtreme()).dateTime(dateTime),
     )
 
@@ -78,10 +78,10 @@ class SalatTimes(val dateTime: LocalDateTime = LocalDateTime.now(),
                 tan(location.latitude.radians()) * tan(sun.sunDeclin.radians())).degrees() / 360.0
 
     // I have made these as functions instead of properties to avoid a circular calculation of salat times - i.e. the new property would call a new property for the day after and so on!
-    fun tomorrowFajr() : Double = SalatTimes(dateTime.plusDays(1),
+    fun tomorrowFajr() : Double = 1.0 + SalatTimes(dateTime.plusDays(1),
         location, calculationMethod, juristicMethod, adjustForAltitude, adjustForExtremeLatitudes, applyDaylightSavings).fajr
 
-    fun tomorrowFajrExtreme() : Double = SalatTimes(dateTime.plusDays(1),
+    fun tomorrowFajrExtreme() : Double = 1.0 + SalatTimes(dateTime.plusDays(1),
         location, calculationMethod, juristicMethod, adjustForAltitude, adjustForExtremeLatitudes, applyDaylightSavings).fajrExtreme
 
     fun nightDuration() : Double = tomorrowFajr() - isha
