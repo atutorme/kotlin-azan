@@ -7,7 +7,10 @@ enum class SalatNames(val niceName: String) {
     DHUHR("Dhuhr"),
     ASR("Asr"),
     MAGHRIB("Maghrib"),
-    ISHA("Isha")
+    ISHA("Isha"),
+    FIRST_THIRD("First Third"),
+    MIDNIGHT("Midnight"),
+    LAST_THIRD("Last Third"),
 }
 
 class SalatTimes(val dateTime: LocalDateTime = LocalDateTime.now(),
@@ -53,6 +56,9 @@ class SalatTimes(val dateTime: LocalDateTime = LocalDateTime.now(),
         SalatNames.ASR.niceName to (dst + if (adjustForExtremeLatitudes && location.latitudeCategory == LatitudeCategory.CATEGORY_3) asrExtreme else asr).toHMS(),
         SalatNames.MAGHRIB.niceName to (dst + if (adjustForExtremeLatitudes && location.latitudeCategory == LatitudeCategory.CATEGORY_3) maghribExtreme else maghrib).toHMS(),
         SalatNames.ISHA.niceName to (dst + if (adjustForExtremeLatitudes) ishaExtreme else isha).toHMS(),
+        SalatNames.FIRST_THIRD.niceName to (dst + if (adjustForExtremeLatitudes) midnight() else midnightExtreme()).toHMS(),
+        SalatNames.MIDNIGHT.niceName to (dst + if (adjustForExtremeLatitudes) firstThird() else firstThirdExtreme()).toHMS(),
+        SalatNames.LAST_THIRD.niceName to (dst + if (adjustForExtremeLatitudes) lastThird() else lastThirdExtreme()).toHMS(),
     )
 
     val salatDateTimes: Map<String, LocalDateTime> get() = mapOf(
@@ -62,6 +68,9 @@ class SalatTimes(val dateTime: LocalDateTime = LocalDateTime.now(),
         SalatNames.ASR.niceName to (dst + if (adjustForExtremeLatitudes && location.latitudeCategory == LatitudeCategory.CATEGORY_3) asrExtreme else asr).dateTime(dateTime),
         SalatNames.MAGHRIB.niceName to (dst + if (adjustForExtremeLatitudes && location.latitudeCategory == LatitudeCategory.CATEGORY_3) maghribExtreme else maghrib).dateTime(dateTime),
         SalatNames.ISHA.niceName to (dst + if (adjustForExtremeLatitudes) ishaExtreme else isha).dateTime(dateTime),
+        SalatNames.FIRST_THIRD.niceName to (dst + if (adjustForExtremeLatitudes) midnight() else midnightExtreme()).dateTime(dateTime),
+        SalatNames.MIDNIGHT.niceName to (dst + if (adjustForExtremeLatitudes) firstThird() else firstThirdExtreme()).dateTime(dateTime),
+        SalatNames.LAST_THIRD.niceName to (dst + if (adjustForExtremeLatitudes) lastThird() else lastThirdExtreme()).dateTime(dateTime),
     )
 
     fun a(shadowLength: Double, sun: Sun) : Double = acos(sin(acot(shadowLength + tan((location.latitude - sun.sunDeclin).radians()))) /
