@@ -12,6 +12,7 @@ fun main() {
     println("isha: ${salatTimes.isha.toHMS()}")
 
     println(salatTimes.salatTimestamps)
+    println(salatTimes.salatDateTimes)
 
     println(salatTimes.isha)
     println(salatTimes.tomorrowFajr())
