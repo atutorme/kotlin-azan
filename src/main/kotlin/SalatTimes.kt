@@ -104,10 +104,18 @@ class SalatTimes(val dateTime: LocalDateTime = LocalDateTime.now(),
     // This is for getting times like isha, midnight, last third that are from yesterday but actually fall in today
     fun yesterdaysSalatTimes() : Map<String, LocalDateTime> = SalatTimes(dateTime.minusDays(1),
         location, calculationMethod, juristicMethod, adjustForAltitude, adjustForExtremeLatitudes, applyDaylightSavings)
-        .salatDateTimes
+        .salatDateTimes.map { "Yesterday's ${it.key}" to it.value }.toMap()
 
     fun yesterdaysSalatTimesThatOverlapInToday() : Map<String, LocalDateTime> = yesterdaysSalatTimes().filter {
         it.value.isAfter(dateTime.minusDays(1).removeTime())
+    }
+
+    fun nextSalatTime() : Pair<String, LocalDateTime> {
+        val now = LocalDateTime.now()
+        val allTimes = salatDateTimes + yesterdaysSalatTimesThatOverlapInToday()
+        return allTimes.toList()
+            .sortedBy { it.second }
+            .first { it.second.isAfter(now) }
     }
 }
 
