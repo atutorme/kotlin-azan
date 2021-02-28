@@ -77,7 +77,8 @@ class SalatTimes(val dateTime: LocalDateTime = LocalDateTime.now(),
                 (cos(location.latitude.radians()) * cos(sun.sunDeclin.radians())) -
                 tan(location.latitude.radians()) * tan(sun.sunDeclin.radians())).degrees() / 360.0
 
-    // I have made these as functions instead of properties to avoid a circular calculation of salat times - i.e. the new property would call a new property for the day after and so on!
+    // These are functions instead of properties to avoid a circular calculation of salat times -
+    // i.e. the new property would call a new property for the day after and so on!
     fun tomorrowFajr() : Double = 1.0 + SalatTimes(dateTime.plusDays(1),
         location, calculationMethod, juristicMethod, adjustForAltitude, adjustForExtremeLatitudes, applyDaylightSavings).fajr
 
@@ -99,6 +100,15 @@ class SalatTimes(val dateTime: LocalDateTime = LocalDateTime.now(),
     fun lastThird() : Double = isha + nightDuration() * 2.0 / 3.0
 
     fun lastThirdExtreme() : Double = ishaExtreme + nightDurationExtreme() * 2.0 / 3.0
+
+    // This is for getting times like isha, midnight, last third that are from yesterday but actually fall in today
+    fun yesterdaysSalatTimes() : Map<String, LocalDateTime> = SalatTimes(dateTime.minusDays(1),
+        location, calculationMethod, juristicMethod, adjustForAltitude, adjustForExtremeLatitudes, applyDaylightSavings)
+        .salatDateTimes
+
+    fun yesterdaysSalatTimesThatOverlapInToday() : Map<String, LocalDateTime> = yesterdaysSalatTimes().filter {
+        it.value.isAfter(dateTime.minusDays(1).removeTime())
+    }
 }
 
 fun acot(x: Double) : Double = atan(1.0 / x)
