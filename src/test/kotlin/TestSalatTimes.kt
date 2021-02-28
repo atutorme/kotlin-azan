@@ -17,6 +17,15 @@ fun main() {
     println(salatTimes.isha)
     println(salatTimes.tomorrowFajr())
 
+    println("Yesterday's salat times")
+    println(salatTimes.yesterdaysSalatTimes())
+
+    println("Yesterday's salat times that overlap into today")
+    println(salatTimes.yesterdaysSalatTimesThatOverlapInToday())
+
+    println("Next salat")
+    println(salatTimes.nextSalatTime())
+
 //    val salatTimesNuukGreenland = SalatTimes(location = Location("Nuuk", 64.175, -51.736, 16.0, -3.0))
 //
 //    println("NUUK fajr: ${salatTimesNuukGreenland.fajr.toHMS()}")

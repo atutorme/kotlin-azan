@@ -107,7 +107,7 @@ class SalatTimes(val dateTime: LocalDateTime = LocalDateTime.now(),
         .salatDateTimes.map { "Yesterday's ${it.key}" to it.value }.toMap()
 
     fun yesterdaysSalatTimesThatOverlapInToday() : Map<String, LocalDateTime> = yesterdaysSalatTimes().filter {
-        it.value.isAfter(dateTime.minusDays(1).removeTime())
+        it.value.isAfter(dateTime.removeTime())
     }
 
     fun nextSalatTime() : Pair<String, LocalDateTime> {
