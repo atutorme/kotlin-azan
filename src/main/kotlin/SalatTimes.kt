@@ -12,7 +12,7 @@ enum class SalatNames(val niceName: String) {
     MIDNIGHT("Midnight"),
     LAST_THIRD("Last Third"),
 }
-l
+
 class SalatTimes(val dateTime: LocalDateTime = LocalDateTime.now(),
                  val location: Location = Location(),
                  val calculationMethod: CalculationMethod = CalculationMethod.MUSLIM_WORLD_LEAGUE,
