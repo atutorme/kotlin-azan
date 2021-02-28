@@ -1,6 +1,24 @@
 # kotlin-azan
 ﷽  
+[![Release](https://jitpack.io/v/atutorme/kotlin-azan.svg)]
+(https://jitpack.io/#atutorme/kotlin-azan)  
 More idiomatic Kotlin implementation of Azan, Adhan, Azaan, Adhaan, Athan, Athaan, Salat, Salaat, Salah, Salaah, Namaz, Namaaz, Prayer times!
+
+## How to use this library (Gradle)
+1. Add it in your root build.gradle at the end of repositories:  
+`allprojects {`  
+`  repositories {`  
+`    ...`  
+`    maven { url 'https://jitpack.io' }`  
+`  }`  
+`}`  
+   
+2. Add the dependency:  
+`dependencies {`  
+`  implementation 'com.github.atutorme:kotlin-azan:Tag'`  
+`}`
+
+More info here: [https://jitpack.io/#atutorme/kotlin-azan](https://jitpack.io/#atutorme/kotlin-azan)
 
 ## Formulae used
 http://praytimes.org/wiki/Prayer_Times_Calculation  
