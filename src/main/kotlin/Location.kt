@@ -8,14 +8,14 @@ enum class LatitudeCategory(val latitude: Double) {
 
 data class Location (
     val name: String = "Makkah",
-    val latitude: Double = MAKKAH_LATTITUDE,
+    val latitude: Double = MAKKAH_LATITUDE,
     val longitude: Double = MAKKAH_LONGITUDE,
     val altitude: Double = MAKKAH_ALTITUDE,
     val timeZone: Double = MAKKAH_TIMEZONE,
 ) {
     companion object {
         // GPS Coordinates of the Ka'bah - https://www.gps-coordinates.net/
-        const val MAKKAH_LATTITUDE = 21.422411
+        const val MAKKAH_LATITUDE = 21.422411
         const val MAKKAH_LONGITUDE = 39.826218
         const val MAKKAH_ALTITUDE = 304.0
         const val MAKKAH_TIMEZONE = 3.0
