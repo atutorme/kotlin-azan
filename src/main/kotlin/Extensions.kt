@@ -13,7 +13,8 @@ fun Int.isLeapYear() = gregorianCalendar.isLeapYear(this)
 
 fun LocalDateTime.removeTime() = LocalDateTime.of(year, month, dayOfMonth, 0, 0)
 
-fun Double.toHMS() : String = "${h.zeroPad()}:${m.zeroPad()}:${s.zeroPad()}"
+fun Double.toTimeString() : String = "${h.zeroPad()}:${m.zeroPad()}:${s.zeroPad()}"
+fun Double.toHMS() : String = "${if (h == 0) "" else "${h}h "}${if (h == 0 && m == 0) "" else "${m}m "}${s}s"
 
 val Double.dOverflow : Int get() = this.toInt()
 val Double.h : Int get() = ((this * 24) % 24.0).toInt()

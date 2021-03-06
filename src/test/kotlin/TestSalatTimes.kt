@@ -1,15 +1,13 @@
-import java.time.LocalDateTime
-
 fun main() {
     val salatTimes = SalatTimes()
 
-    println("fajr: ${salatTimes.fajr.toHMS()}")
-    println("sunrise: ${salatTimes.sunrise.toHMS()}")
-    println("dhuhr: ${salatTimes.dhuhr.toHMS()}")
-    println("asr: ${salatTimes.asr.toHMS()}")
-    println("sunset: ${salatTimes.sunset.toHMS()}")
-    println("maghrib: ${salatTimes.maghrib.toHMS()}")
-    println("isha: ${salatTimes.isha.toHMS()}")
+    println("fajr: ${salatTimes.fajr.toTimeString()}")
+    println("sunrise: ${salatTimes.sunrise.toTimeString()}")
+    println("dhuhr: ${salatTimes.dhuhr.toTimeString()}")
+    println("asr: ${salatTimes.asr.toTimeString()}")
+    println("sunset: ${salatTimes.sunset.toTimeString()}")
+    println("maghrib: ${salatTimes.maghrib.toTimeString()}")
+    println("isha: ${salatTimes.isha.toTimeString()}")
 
     println(salatTimes.salatTimestamps)
     println(salatTimes.salatDateTimes)

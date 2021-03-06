@@ -1,5 +1,4 @@
 import java.time.LocalDateTime
-import java.time.LocalTime
 import java.time.ZoneOffset
 import kotlin.math.*
 
@@ -52,15 +51,15 @@ class SalatTimes(val dateTime: LocalDateTime = LocalDateTime.now(),
     val asrExtreme = dhuhrExtreme + a(juristicMethod.shadowLength, sunExtreme)
 
     val salatTimestamps: Map<String, String> get() = mapOf(
-        SalatNames.FAJR.niceName to (dst + if (adjustForExtremeLatitudes) fajrExtreme else fajr).toHMS(),
-        SalatNames.SUNRISE.niceName to (dst + if (adjustForExtremeLatitudes && location.latitudeCategory == LatitudeCategory.CATEGORY_3) sunriseExtreme else sunrise).toHMS(),
-        SalatNames.DHUHR.niceName to (dst + if (adjustForExtremeLatitudes && location.latitudeCategory == LatitudeCategory.CATEGORY_3) dhuhrExtreme else dhuhr).toHMS(),
-        SalatNames.ASR.niceName to (dst + if (adjustForExtremeLatitudes && location.latitudeCategory == LatitudeCategory.CATEGORY_3) asrExtreme else asr).toHMS(),
-        SalatNames.MAGHRIB.niceName to (dst + if (adjustForExtremeLatitudes && location.latitudeCategory == LatitudeCategory.CATEGORY_3) maghribExtreme else maghrib).toHMS(),
-        SalatNames.ISHA.niceName to (dst + if (adjustForExtremeLatitudes) ishaExtreme else isha).toHMS(),
-        SalatNames.FIRST_THIRD.niceName to (dst + if (adjustForExtremeLatitudes) firstThird() else firstThirdExtreme()).toHMS(),
-        SalatNames.MIDNIGHT.niceName to (dst + if (adjustForExtremeLatitudes) midnight() else midnightExtreme()).toHMS(),
-        SalatNames.LAST_THIRD.niceName to (dst + if (adjustForExtremeLatitudes) lastThird() else lastThirdExtreme()).toHMS(),
+        SalatNames.FAJR.niceName to (dst + if (adjustForExtremeLatitudes) fajrExtreme else fajr).toTimeString(),
+        SalatNames.SUNRISE.niceName to (dst + if (adjustForExtremeLatitudes && location.latitudeCategory == LatitudeCategory.CATEGORY_3) sunriseExtreme else sunrise).toTimeString(),
+        SalatNames.DHUHR.niceName to (dst + if (adjustForExtremeLatitudes && location.latitudeCategory == LatitudeCategory.CATEGORY_3) dhuhrExtreme else dhuhr).toTimeString(),
+        SalatNames.ASR.niceName to (dst + if (adjustForExtremeLatitudes && location.latitudeCategory == LatitudeCategory.CATEGORY_3) asrExtreme else asr).toTimeString(),
+        SalatNames.MAGHRIB.niceName to (dst + if (adjustForExtremeLatitudes && location.latitudeCategory == LatitudeCategory.CATEGORY_3) maghribExtreme else maghrib).toTimeString(),
+        SalatNames.ISHA.niceName to (dst + if (adjustForExtremeLatitudes) ishaExtreme else isha).toTimeString(),
+        SalatNames.FIRST_THIRD.niceName to (dst + if (adjustForExtremeLatitudes) firstThird() else firstThirdExtreme()).toTimeString(),
+        SalatNames.MIDNIGHT.niceName to (dst + if (adjustForExtremeLatitudes) midnight() else midnightExtreme()).toTimeString(),
+        SalatNames.LAST_THIRD.niceName to (dst + if (adjustForExtremeLatitudes) lastThird() else lastThirdExtreme()).toTimeString(),
     )
 
     val salatDateTimes: Map<String, LocalDateTime> get() = mapOf(
