@@ -2,7 +2,9 @@
 ﷽  
 [![Release](https://jitpack.io/v/atutorme/kotlin-azan.svg)]
 (https://jitpack.io/#atutorme/kotlin-azan)  
-More idiomatic Kotlin implementation of Azan, Adhan, Azaan, Adhaan, Athan, Athaan, Salat, Salaat, Salah, Salaah, Namaz, Namaaz, Prayer times!
+More idiomatic Kotlin implementation of Azan, Adhan, Azaan, Adhaan, Athan, Athaan, Adzan, Adzaan, Salat, Salaat, Salah, Salaah, Namaz, Namaaz, Prayer times!  
+أوقات الصلات, الأذان, الصلوات الخمس  
+إِنَّ الصَّلَاةَ كَانَتْ عَلَى الْمُؤْمِنِينَ كِتَابًا مَّوْقُوتًا [النساء 103] 
 
 ## How to use this library (Gradle)
 1. Add it in your root build.gradle at the end of repositories:  
