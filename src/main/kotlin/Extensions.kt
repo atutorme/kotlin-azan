@@ -2,6 +2,9 @@ import java.time.LocalDateTime
 import java.util.*
 import kotlin.math.PI
 
+const val MINUTES_IN_DAY = 1440.0 // 24 * 60.0
+const val SECONDS_IN_DAY = 86400.0 // 24 * 60.0
+
 fun Double.radians() = this * PI / 180.0
 fun Double.degrees() = this * 180.0 / PI
 
@@ -14,8 +17,10 @@ fun Double.toHMS() : String = "${h.zeroPad()}:${m.zeroPad()}:${s.zeroPad()}"
 
 val Double.dOverflow : Int get() = this.toInt()
 val Double.h : Int get() = ((this * 24) % 24.0).toInt()
-val Double.m : Int get() = ((this * 24 * 60.0) % 60.0).toInt()
-val Double.s : Int get() = ((this * 24 * 3600.0) % 60.0).toInt()
+val Double.m : Int get() = ((this * MINUTES_IN_DAY) % 60.0).toInt()
+val Double.s : Int get() = ((this * SECONDS_IN_DAY) % 60.0).toInt()
+
+fun Long.secondsToHMS() : String = (this.toDouble() / (SECONDS_IN_DAY)).toHMS()
 
 fun Double.dateTime(baseDateTime: LocalDateTime) : LocalDateTime =
     baseDateTime.removeTime().plusDays(dOverflow.toLong())

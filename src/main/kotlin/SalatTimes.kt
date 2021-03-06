@@ -1,4 +1,6 @@
 import java.time.LocalDateTime
+import java.time.LocalTime
+import java.time.ZoneOffset
 import kotlin.math.*
 
 enum class SalatNames(val niceName: String) {
@@ -117,6 +119,24 @@ class SalatTimes(val dateTime: LocalDateTime = LocalDateTime.now(),
             .sortedBy { it.second }
             .first { it.second.isAfter(now) }
     }
+
+    fun currentSalatTime() : Pair<String, LocalDateTime> {
+        val now = LocalDateTime.now()
+        val allTimes = salatDateTimes + yesterdaysSalatTimesThatOverlapInToday()
+        return allTimes.toList()
+            .sortedBy { it.second }
+            .last { it.second.isBefore(now) }
+    }
+
+    fun secondsToNextSalat() : Long =
+        nextSalatTime().second.toEpochSecond(ZoneOffset.UTC) - LocalDateTime.now().toEpochSecond(ZoneOffset.UTC)
+
+    fun secondsFromLastSalat() : Long =
+        LocalDateTime.now().toEpochSecond(ZoneOffset.UTC) - currentSalatTime().second.toEpochSecond(ZoneOffset.UTC)
+
+    fun timeToNextSalat() : String = secondsToNextSalat().secondsToHMS()
+
+    fun timeFromLastSalat() : String = secondsFromLastSalat().secondsToHMS()
 }
 
 fun acot(x: Double) : Double = atan(1.0 / x)

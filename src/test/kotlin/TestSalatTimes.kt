@@ -25,6 +25,15 @@ fun main() {
 
     println("Next salat")
     println(salatTimes.nextSalatTime())
+    println("Current salat")
+    println(salatTimes.currentSalatTime())
+
+    println("Seconds to next salat")
+    println("${salatTimes.secondsToNextSalat()} -- ${salatTimes.timeToNextSalat()}")
+    println("Seconds since current salat")
+    println("${salatTimes.secondsFromLastSalat()} -- ${salatTimes.timeFromLastSalat()}")
+
+
 
 //    val salatTimesNuukGreenland = SalatTimes(location = Location("Nuuk", 64.175, -51.736, 16.0, -3.0))
 //
