@@ -1,3 +1,4 @@
+import Sun.Companion.MINUTES_IN_DAY
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 import kotlin.math.*
@@ -33,20 +34,26 @@ class SalatTimes(val dateTime: LocalDateTime = LocalDateTime.now(),
     val sunsetExtreme = if (adjustForAltitude) sunExtreme.sunsetTimeAltitudeCorrected else sunExtreme.sunsetTime
 
     val dhuhr = sun.solarNoon
+
     val maghrib = sunset
 
     val fajr = dhuhr - sun.t(calculationMethod.fajrAngle, adjustForAltitude) / 360.0
-    val isha = if (calculationMethod.overrideIshaDelayMins == null) dhuhr + sun.t(calculationMethod.ishaAngle, adjustForAltitude) / 360.0
-    else maghrib + calculationMethod.overrideIshaDelayMins
+
+    val isha =
+        if (calculationMethod.overrideIshaDelayMins == null) dhuhr + sun.t(calculationMethod.ishaAngle, adjustForAltitude) / 360.0
+        else maghrib + calculationMethod.overrideIshaDelayMins / MINUTES_IN_DAY
 
     val asr = dhuhr + a(juristicMethod.shadowLength, sun)
 
     val dhuhrExtreme = sunExtreme.solarNoon
+
     val maghribExtreme = sunsetExtreme
 
     val fajrExtreme = dhuhrExtreme - sunExtreme.t(calculationMethod.fajrAngle, adjustForAltitude) / 360.0
-    val ishaExtreme = if (calculationMethod.overrideIshaDelayMins == null) dhuhrExtreme + sunExtreme.t(calculationMethod.ishaAngle, adjustForAltitude) / 360.0
-    else maghribExtreme + calculationMethod.overrideIshaDelayMins
+
+    val ishaExtreme =
+        if (calculationMethod.overrideIshaDelayMins == null) dhuhrExtreme + sunExtreme.t(calculationMethod.ishaAngle, adjustForAltitude) / 360.0
+        else maghribExtreme + calculationMethod.overrideIshaDelayMins / MINUTES_IN_DAY
 
     val asrExtreme = dhuhrExtreme + a(juristicMethod.shadowLength, sunExtreme)
 

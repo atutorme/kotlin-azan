@@ -8,6 +8,10 @@ import kotlin.math.*
  * https://www.esrl.noaa.gov/gmd/grad/solcalc/calcdetails.html
  */
 class Sun(val dateTime: LocalDateTime = LocalDateTime.now(), val location: Location = Location()) {
+    companion object {
+        const val MINUTES_IN_DAY = 1440.0 // 24 * 60.0
+        const val SECONDS_IN_DAY = 86400.0 // 24 * 60.0
+    }
 
     val julianDay : Double = JulianFields.JULIAN_DAY.getFrom(dateTime) - location.timeZone / 24.0
 

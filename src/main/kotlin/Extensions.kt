@@ -1,9 +1,8 @@
+import Sun.Companion.MINUTES_IN_DAY
+import Sun.Companion.SECONDS_IN_DAY
 import java.time.LocalDateTime
 import java.util.*
 import kotlin.math.PI
-
-const val MINUTES_IN_DAY = 1440.0 // 24 * 60.0
-const val SECONDS_IN_DAY = 86400.0 // 24 * 60.0
 
 fun Double.radians() = this * PI / 180.0
 fun Double.degrees() = this * 180.0 / PI
