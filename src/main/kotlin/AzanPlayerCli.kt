@@ -1,6 +1,8 @@
 import java.util.*
 import kotlin.concurrent.timerTask
 
+val salatNamesToPlay = listOf(SalatNames.FAJR, SalatNames.DHUHR, SalatNames.ASR, SalatNames.MAGHRIB, SalatNames.ISHA)
+
 fun main() {
     val location = Location(
         "Brisbane",
