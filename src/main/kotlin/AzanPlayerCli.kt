@@ -1,7 +1,11 @@
+import kuusisto.tinysound.Music
+import kuusisto.tinysound.TinySound
 import java.util.*
 import kotlin.concurrent.timerTask
 
+
 val salatNamesToPlay = listOf(SalatNames.FAJR, SalatNames.DHUHR, SalatNames.ASR, SalatNames.MAGHRIB, SalatNames.ISHA)
+    .map { it.niceName }
 
 fun main() {
     val location = Location(
@@ -16,10 +20,13 @@ fun main() {
 
     val timer = Timer("Azan Player Cli", false)
 
-    scheduleNextAzan(salatTimes, timer)
+    TinySound.init()
+    val adhan = TinySound.loadMusic("AdhanMedina.wav")
+
+    scheduleNextAzan(salatTimes, timer, adhan)
 }
 
-fun scheduleNextAzan(salatTimes: SalatTimes, timer: Timer) {
+fun scheduleNextAzan(salatTimes: SalatTimes, timer: Timer, adhan: Music) {
     println("Scheduling salat: ${salatTimes.nextSalatTime()}")
     println("in: ${salatTimes.secondsToNextSalat()} seconds")
 
@@ -27,8 +34,10 @@ fun scheduleNextAzan(salatTimes: SalatTimes, timer: Timer) {
         timerTask {
             println("It's azan time!")
             println("Salat: ${salatTimes.currentSalatTime()}")
+            if (salatTimes.currentSalatTime().first in salatNamesToPlay)
+                adhan.play(false)
 
-            scheduleNextAzan(SalatTimes(location = salatTimes.location), timer)
+            scheduleNextAzan(SalatTimes(location = salatTimes.location), timer, adhan)
 
         }, salatTimes.secondsToNextSalat() * 1000
     )
