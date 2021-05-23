@@ -15,7 +15,11 @@ enum class SalatNames(val niceName: String) {
     LAST_THIRD("Last Third"),
 }
 
-class SalatTimes(val dateTime: LocalDateTime = LocalDateTime.now(),
+fun interface LocalDateTimeProvider {
+    fun getLocalDateTime() : LocalDateTime
+}
+
+class SalatTimes(val localDateTimeProvider: LocalDateTimeProvider = LocalDateTimeProvider { LocalDateTime.now() },
                  val location: Location = Location(),
                  val calculationMethod: CalculationMethod = CalculationMethod.MUSLIM_WORLD_LEAGUE,
                  val juristicMethod: JuristicMethod = JuristicMethod.MAJORITY,
@@ -23,6 +27,7 @@ class SalatTimes(val dateTime: LocalDateTime = LocalDateTime.now(),
                  val adjustForExtremeLatitudes: Boolean = true,
                  val applyDaylightSavings: Boolean = false
 ) {
+    val dateTime: LocalDateTime = localDateTimeProvider.getLocalDateTime()
     val sun = Sun(dateTime, location)
     val sunExtreme = Sun(dateTime, location.closestLocationForExtremeLatitudes())
     val dst = if (applyDaylightSavings) 1.0 / 24.0 else 0.0
@@ -87,10 +92,12 @@ class SalatTimes(val dateTime: LocalDateTime = LocalDateTime.now(),
 
     // These are functions instead of properties to avoid a circular calculation of salat times -
     // i.e. the new property would call a new property for the day after and so on!
-    fun tomorrowFajr() : Double = 1.0 + SalatTimes(dateTime.plusDays(1),
+    fun tomorrowFajr() : Double = 1.0 + SalatTimes(
+        { localDateTimeProvider.getLocalDateTime().plusDays(1) },
         location, calculationMethod, juristicMethod, adjustForAltitude, adjustForExtremeLatitudes, applyDaylightSavings).fajr
 
-    fun tomorrowFajrExtreme() : Double = 1.0 + SalatTimes(dateTime.plusDays(1),
+    fun tomorrowFajrExtreme() : Double = 1.0 + SalatTimes(
+        { localDateTimeProvider.getLocalDateTime().plusDays(1) },
         location, calculationMethod, juristicMethod, adjustForAltitude, adjustForExtremeLatitudes, applyDaylightSavings).fajrExtreme
 
     fun nightDuration() : Double = tomorrowFajr() - isha
@@ -110,7 +117,8 @@ class SalatTimes(val dateTime: LocalDateTime = LocalDateTime.now(),
     fun lastThirdExtreme() : Double = ishaExtreme + nightDurationExtreme() * 2.0 / 3.0
 
     // This is for getting times like isha, midnight, last third that are from yesterday but actually fall in today
-    fun yesterdaysSalatTimes() : Map<String, LocalDateTime> = SalatTimes(dateTime.minusDays(1),
+    fun yesterdaysSalatTimes() : Map<String, LocalDateTime> = SalatTimes(
+        { localDateTimeProvider.getLocalDateTime().minusDays(1) },
         location, calculationMethod, juristicMethod, adjustForAltitude, adjustForExtremeLatitudes, applyDaylightSavings)
         .salatDateTimes.map { "Yesterday's ${it.key}" to it.value }.toMap()
 
@@ -118,31 +126,31 @@ class SalatTimes(val dateTime: LocalDateTime = LocalDateTime.now(),
         it.value.isAfter(dateTime.removeTime())
     }
 
-    fun nextSalatTime() : Pair<String, LocalDateTime> {
-        val now = LocalDateTime.now()
+    fun nextSalatTime(localDateTimeProvider: LocalDateTimeProvider = LocalDateTimeProvider { LocalDateTime.now() }) : Pair<String, LocalDateTime> {
+        val now = localDateTimeProvider.getLocalDateTime()
         val allTimes = salatDateTimes + yesterdaysSalatTimesThatOverlapInToday()
         return allTimes.toList()
             .sortedBy { it.second }
             .first { it.second.isAfter(now) }
     }
 
-    fun currentSalatTime() : Pair<String, LocalDateTime> {
-        val now = LocalDateTime.now()
+    fun currentSalatTime(localDateTimeProvider: LocalDateTimeProvider = LocalDateTimeProvider { LocalDateTime.now() }) : Pair<String, LocalDateTime> {
+        val now = localDateTimeProvider.getLocalDateTime()
         val allTimes = salatDateTimes + yesterdaysSalatTimesThatOverlapInToday()
         return allTimes.toList()
             .sortedBy { it.second }
             .last { it.second.isBefore(now) }
     }
 
-    fun secondsToNextSalat() : Long =
-        nextSalatTime().second.toEpochSecond(ZoneOffset.UTC) - LocalDateTime.now().toEpochSecond(ZoneOffset.UTC)
+    fun secondsToNextSalat(localDateTimeProvider: LocalDateTimeProvider = LocalDateTimeProvider { LocalDateTime.now() }) : Long =
+        nextSalatTime().second.toEpochSecond(ZoneOffset.UTC) - localDateTimeProvider.getLocalDateTime().toEpochSecond(ZoneOffset.UTC)
 
-    fun secondsFromLastSalat() : Long =
-        LocalDateTime.now().toEpochSecond(ZoneOffset.UTC) - currentSalatTime().second.toEpochSecond(ZoneOffset.UTC)
+    fun secondsFromLastSalat(localDateTimeProvider: LocalDateTimeProvider = LocalDateTimeProvider { LocalDateTime.now() }) : Long =
+        localDateTimeProvider.getLocalDateTime().toEpochSecond(ZoneOffset.UTC) - currentSalatTime().second.toEpochSecond(ZoneOffset.UTC)
 
-    fun timeToNextSalat() : String = secondsToNextSalat().secondsToHMS()
+    fun timeToNextSalat(localDateTimeProvider: LocalDateTimeProvider = LocalDateTimeProvider { LocalDateTime.now() }) : String = secondsToNextSalat(localDateTimeProvider).secondsToHMS()
 
-    fun timeFromLastSalat() : String = secondsFromLastSalat().secondsToHMS()
+    fun timeFromLastSalat(localDateTimeProvider: LocalDateTimeProvider = LocalDateTimeProvider { LocalDateTime.now() }) : String = secondsFromLastSalat(localDateTimeProvider).secondsToHMS()
 }
 
 fun acot(x: Double) : Double = atan(1.0 / x)
