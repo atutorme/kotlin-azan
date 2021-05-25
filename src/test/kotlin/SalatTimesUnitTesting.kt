@@ -20,14 +20,11 @@ fun getSalatSalatNames(locationName: String) : List<String> =
         .sortedBy { s -> s.second }
         .map { s -> s.first }
 
-val aDebug = allSalatTimes.map { it.aDebug(it.juristicMethod.shadowLength, it.sun) }
-
 class SalatTimesUnitTesting {
 
     @Test
     fun testSalatTimesMakkah() {
-        println(aDebug)
-        allSalatTimes.forEach { println(it.salatTimestamps) }
+        allSalatTimes.forEach { println("${it.location.name}\n ${it.salatTimestamps}\n") }
         assertIterableEquals(salatNiceNames, getSalatSalatNames("Makkah"))
     }
 
