@@ -86,12 +86,12 @@ class SalatTimes(val localDateTimeProvider: LocalDateTimeProvider = LocalDateTim
         SalatNames.LAST_THIRD.niceName to (dst + if (adjustForExtremeLatitudes) lastThird() else lastThirdExtreme()).dateTime(dateTime),
     )
 
-    fun a(shadowLength: Double, sun: Sun) : Double = acos(sin(acot(shadowLength + tan((location.latitude - sun.sunDeclin).radians()))) /
+    fun a(shadowLength: Double, sun: Sun) : Double = acos(sin(acot(shadowLength + tan(abs(location.latitude - sun.sunDeclin).radians()))) /
                 (cos(location.latitude.radians()) * cos(sun.sunDeclin.radians())) -
                 tan(location.latitude.radians()) * tan(sun.sunDeclin.radians())).degrees() / 360.0
 
     fun aDebug(shadowLength: Double, sun: Sun) : Double {
-        val t1 = tan((location.latitude - sun.sunDeclin).radians())
+        val t1 = tan(abs(location.latitude - sun.sunDeclin).radians())
         val a1 = acot(shadowLength + t1)
         val c1 = cos(location.latitude.radians())
         val c2 = cos(sun.sunDeclin.radians())

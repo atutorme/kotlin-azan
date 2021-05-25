@@ -27,6 +27,7 @@ class SalatTimesUnitTesting {
     @Test
     fun testSalatTimesMakkah() {
         println(aDebug)
+        allSalatTimes.forEach { println(it.salatTimestamps) }
         assertIterableEquals(salatNiceNames, getSalatSalatNames("Makkah"))
     }
 
