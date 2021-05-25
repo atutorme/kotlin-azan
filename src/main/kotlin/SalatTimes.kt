@@ -90,6 +90,25 @@ class SalatTimes(val localDateTimeProvider: LocalDateTimeProvider = LocalDateTim
                 (cos(location.latitude.radians()) * cos(sun.sunDeclin.radians())) -
                 tan(location.latitude.radians()) * tan(sun.sunDeclin.radians())).degrees() / 360.0
 
+    fun aDebug(shadowLength: Double, sun: Sun) : Double {
+        val t1 = tan((location.latitude - sun.sunDeclin).radians())
+        val a1 = acot(shadowLength + t1)
+        val c1 = cos(location.latitude.radians())
+        val c2 = cos(sun.sunDeclin.radians())
+        val s1 = sin(a1)
+        val c3 = (c1 * c2)
+        val t2 = tan(location.latitude.radians())
+        val t3 = tan(sun.sunDeclin.radians())
+        val t4 = t2 * t3
+        val s2 = s1 / c3 - t4
+        val a2 = acos(s2)
+        val a = a2.degrees()
+
+        println(listOf(t1, a1, c1, c2, s1, c3, t2, t3, t4, s2, a2, a))
+
+        return a / 360.0
+    }
+
     // These are functions instead of properties to avoid a circular calculation of salat times -
     // i.e. the new property would call a new property for the day after and so on!
     fun tomorrowFajr() : Double = 1.0 + SalatTimes(
