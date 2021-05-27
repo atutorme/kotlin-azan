@@ -100,21 +100,21 @@ class SalatTimes(val localDateTimeProvider: LocalDateTimeProvider = LocalDateTim
         { localDateTimeProvider.getLocalDateTime().plusDays(1) },
         location, calculationMethod, juristicMethod, adjustForAltitude, adjustForExtremeLatitudes, applyDaylightSavings).fajrExtreme
 
-    fun nightDuration() : Double = tomorrowFajr() - isha
+    fun nightDuration() : Double = tomorrowFajr() - maghrib
 
-    fun nightDurationExtreme() : Double = tomorrowFajrExtreme() - ishaExtreme
+    fun nightDurationExtreme() : Double = tomorrowFajrExtreme() - maghribExtreme
 
-    fun midnight() : Double = isha + nightDuration() / 2.0
+    fun midnight() : Double = maghrib + nightDuration() / 2.0
 
-    fun midnightExtreme() : Double = ishaExtreme + nightDurationExtreme() / 2.0
+    fun midnightExtreme() : Double = maghribExtreme + nightDurationExtreme() / 2.0
 
-    fun firstThird() : Double = isha + nightDuration() / 3.0
+    fun firstThird() : Double = maghrib + nightDuration() / 3.0
 
-    fun firstThirdExtreme() : Double = ishaExtreme + nightDurationExtreme() / 3.0
+    fun firstThirdExtreme() : Double = maghribExtreme + nightDurationExtreme() / 3.0
 
-    fun lastThird() : Double = isha + nightDuration() * 2.0 / 3.0
+    fun lastThird() : Double = maghrib + nightDuration() * 2.0 / 3.0
 
-    fun lastThirdExtreme() : Double = ishaExtreme + nightDurationExtreme() * 2.0 / 3.0
+    fun lastThirdExtreme() : Double = maghribExtreme + nightDurationExtreme() * 2.0 / 3.0
 
     // This is for getting times like isha, midnight, last third that are from yesterday but actually fall in today
     fun yesterdaysSalatTimes() : Map<String, LocalDateTime> = SalatTimes(
